@@ -5,6 +5,15 @@ import Sky from './Sky.jsx';
 import Hill from './Hill.jsx';
 import Ridges from './Ridges.jsx';
 import Landmarks from './Landmarks.jsx';
+import Bonsai from './Bonsai.jsx';
+
+// Debug shots until the S4 camera director: ?shot=macro | wide
+const SHOTS = {
+  hero: { pos: [0, 1.6, 7], look: [0, 1.5, 0] },
+  macro: { pos: [0.55, 0.95, 1.35], look: [0.05, 0.85, 0] },
+  wide: { pos: [3, 3, 14], look: [0, 1.2, 0] },
+};
+const shot = SHOTS[new URLSearchParams(typeof location !== 'undefined' ? location.search : '').get('shot')] || SHOTS.hero;
 import { paletteAt, sunPosition, moonPosition } from '../lib/time.js';
 
 // Shared per-frame world state, read by children via ref (no React re-renders per frame).
@@ -47,15 +56,12 @@ export default function Scene({ clock, reduced, idle }) {
     fog.color.copy(tmp.set(w.pal.horizon));
 
     // Gentle hold on the S1 framing; camera director arrives in S4.
-    if (!reduced) {
-      const t = state.clock.elapsedTime;
-      camera.position.x = Math.sin(t * 0.05) * 0.15;
-      camera.position.y = 1.6 + Math.sin(t * 0.07) * 0.05;
-    }
+    const t = reduced ? 0 : state.clock.elapsedTime;
+    camera.position.set(shot.pos[0] + Math.sin(t * 0.05) * 0.04 * shot.pos[2], shot.pos[1] + Math.sin(t * 0.07) * 0.01 * shot.pos[2], shot.pos[2]);
     // Portrait (phones): wider lens so the hero fits; S5 adds the proper locked phone shot.
     const fov = state.size.width < state.size.height ? 58 : 38;
     if (camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); }
-    camera.lookAt(0, 1.4, 0);
+    camera.lookAt(...shot.look);
   });
 
   return (
@@ -66,6 +72,7 @@ export default function Scene({ clock, reduced, idle }) {
       <Ridges world={world} />
       <Landmarks world={world} />
       <Hill />
+      <Bonsai />
     </>
   );
 }

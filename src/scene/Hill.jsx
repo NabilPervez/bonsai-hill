@@ -27,10 +27,6 @@ export default function Hill() {
         <cylinderGeometry args={[1.25, 1.35, 0.18, 9]} />
         <meshStandardMaterial color="#4a4a44" roughness={1} />
       </mesh>
-      <mesh position={[0, 0.38, 0]}>
-        <boxGeometry args={[1.6, 0.42, 0.9]} />
-        <meshStandardMaterial color="#1f2a2e" roughness={0.35} metalness={0.1} />
-      </mesh>
     </group>
   );
 }
