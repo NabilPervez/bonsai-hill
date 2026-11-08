@@ -1,0 +1,6 @@
+:root{--ink:#14141a;--washi:#f2ead8;--moss:#5e7d3a;--ember:#d9a441;--moon:#9fb3d9}
+canvas{display:block}
+.clock{position:fixed;right:20px;bottom:16px;z-index:2;font:500 15px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.06em;color:var(--washi);opacity:.72;text-shadow:0 1px 6px rgba(0,0,0,.45);font-variant-numeric:tabular-nums;user-select:none}
+.debug{position:fixed;left:16px;right:16px;top:12px;z-index:3;display:flex;gap:10px;align-items:center;color:var(--washi);font:12px ui-monospace,monospace}
+.debug input{flex:1}
+@media (max-width:480px){.clock{right:16px;bottom:14px;font-size:14px}}
